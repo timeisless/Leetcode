@@ -1,6 +1,6 @@
 class Solution {
 public:
-    void dp(vector<vector<int>> &vecvec,vector<int> vec,int n,int i,int k)
+    void dp(vector<vector<int>> &vecvec,vector<int> &vec,int n,int i,int k)
     {
         if(k==0)
         {
