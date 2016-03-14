@@ -1,0 +1,43 @@
+class Solution {
+public:
+    bool ismatch(int s[128],int t[128])
+    {
+        for(int i=0;i<128;i++)
+          if(s[i]<t[i])
+            return false;
+        return true;
+    }
+    string minWindow(string s, string t) {
+        int target[128]={0};
+        int source[128]={0};
+        for(int i=0;i<t.size();i++)
+        {
+            target[t[i]]++;
+        }
+        int begin=0,end=s.length()-1,pb=0,pe=0;
+        source[s[pe]]++;
+        bool flag=false;
+        while(pe<s.length())
+        {
+            if(ismatch(source,target))
+            {
+                flag=true;
+                if(pe-pb<end-begin)
+                {
+                    begin=pb;
+                    end=pe;
+                }
+                source[s[pb++]]--;
+            }
+            else
+            {
+                pe++;
+                if(pe<s.length())
+                  source[s[pe]]++;
+            }
+        }
+        if(!flag)
+          return "";
+        return s.substr(begin,end-begin+1);
+    }
+};
