@@ -1,0 +1,79 @@
+class Solution {
+public:
+    bool isone(char c,string t)
+    {
+        for(int i=0;i<t.size();i++)
+          if(t[i]==c)
+            return true;
+        return false;
+    }
+    string minWindow(string s, string t) {
+        if(t=="")
+          return "";
+        if(s.length()<=t.length())
+          return s;
+        int begin=s.length(),end=-1;
+        vector<bool> vflag(t.length(),false);
+        vector<int> pos(t.length(),-1);
+        int count=0;
+        for(int i=0;i<s.size();i++)
+        {
+            if(count<t.length())
+            {
+                for(int j=0;j<t.length();j++)
+                {
+                    if(s[i]==t[j]&&!vflag[j])
+                    {
+                        vflag[j]=true;
+                        pos[j]=i;
+                        if(i>end)
+                        {
+                            end=i;
+                        }
+                        if(i<begin)
+                        {
+                            begin=i;
+                        }
+                        count++;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                int k=-1;
+                for(int j=0;j<t.length();j++)
+                {
+                    if(s[i]==t[j])
+                    {
+                        k=j;
+                        while(j<t.length())
+                        {
+                            if(s[i]==t[j]&&pos[j]<pos[k])
+                              k=j;
+                            j++;
+                        }
+                    }
+                }
+                if(k!=-1)
+                {
+                    pos[k]=i;
+                    int pb=s.length(),pe=-1;
+                    for(int j=0;j<t.length();j++)
+                    {
+                        if(pos[j]>pe)
+                          pe=pos[j];
+                        if(pos[j]<pb)
+                          pb=pos[j];
+                    }
+                    if(pe-pb<end-begin)
+                    {
+                        end=pe;
+                        begin=pb;
+                    }
+                }
+            }
+        }
+        return s.substr(begin,end-begin+1);
+    }
+};
